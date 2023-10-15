@@ -1,0 +1,36 @@
+<div class="flex justify-center items-center h-screen bg-color">
+  <mat-card class="w-96 p-10 login-card">
+    <mat-card-header class="mb-4">
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="formSubmitted && loginForm.invalid" class="text-red-500 mb-4">
+          Dados incorretos, por favor tente novamente
+        </div>
+        <div *ngIf="invalidCredentials" class="text-red-500 mb-4">
+          {{ errorMessage }}
+        </div>
+
+        <mat-form-field class="w-full">
+          <input matInput formControlName="email" placeholder="Email" type="email">
+          <mat-error *ngIf="formSubmitted && loginForm.get('email')?.hasError('required')">Campo obrigatório</mat-error>
+          <mat-error *ngIf="formSubmitted && loginForm.get('email')?.hasError('email')">Email inválido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <input matInput formControlName="senha" placeholder="Senha" [type]="passwordVisible ? 'text' : 'password'">
+          <mat-icon matSuffix (click)="togglePasswordVisibility()">{{ passwordVisible ? 'visibility_off' :
+            'visibility' }}</mat-icon>
+          <mat-error *ngIf="formSubmitted && loginForm.get('senha')?.hasError('required')">Campo obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-card-actions>
+          <button mat-raised-button color="primary" class="w-full" type="submit">ENTRAR</button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>

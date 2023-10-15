@@ -1,0 +1,16 @@
+<div class="flex flex-row space-between items-center justify-center">
+  <h1 mat-dialog-title>Erro ao salvar</h1>
+  <mat-icon class="mb-4">warning</mat-icon>
+</div>
+
+<div class="p-6">
+  Status: {{ data.status }}
+</div>
+
+<div mat-dialog-content>
+  {{ data.message }}
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Fechar</button>
+</div>

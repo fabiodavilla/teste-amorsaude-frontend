@@ -1,0 +1,65 @@
+<div class="flex flex-col h-full w-full">
+  <div class="flex flex-row h-20 justify-around items-center">
+    <h1>Consultar</h1>
+    <div class="flex flex-row gap-4">
+      <button mat-raised-button color="primary" (click)="newItem()">Nova Entidade</button>
+      <button mat-raised-button color="accent" (click)="logoff()">Logoff</button>
+    </div>
+  </div>
+
+  <div class="body-table h-full flex flex-col m-8 p-8">
+    <mat-form-field>
+      <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event)" placeholder="Pesquisar" #filterInput>
+      <button mat-button matSuffix (click)="clearFilter(filterInput)" *ngIf="filterInput.value">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="razaoSocial">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Razão Social </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.razaoSocial }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeFantasia">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome Fantasia </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.nomeFantasia }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cnpj">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> CNPJ </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ format(element.cnpj) }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Ativa">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Ativa </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.Ativa == true ? 'Sim' : 'Não' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="text-right"> Ações </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="text-right">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let acao of actions" (click)="acao.action(element)">
+              {{ acao.label }}
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <div *ngIf="dataSource.filteredData.length === 0" class="flex flex-col justify-center items-center h-full m-4">
+      <mat-icon>search_off</mat-icon>
+      <p>Nenhum resultado encontrado.</p>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
+  </div>
+</div>

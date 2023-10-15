@@ -1,0 +1,104 @@
+<div class="flex flex-col h-full w-full">
+  <div class="flex flex-row h-20 justify-around items-center">
+    <h1 class="text-xl font-bold">{{ isEdicao ? 'Editar Entidade' : 'Criar Entidade' }}</h1>
+    <button *ngIf="isEdicao" mat-raised-button color="warn" (click)="deleteItem()">Excluir</button>
+  </div>
+
+  <div class="body-table h-full flex flex-col m-8 p-8">
+
+    <form [formGroup]="entidadeForm" (ngSubmit)="save()">
+      <div class="mb-4 flex flex-wrap">
+        <div class="w-full sm:w-1/2 sm:pr-2">
+          <mat-form-field class="w-full">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razaoSocial">
+            <mat-error *ngIf="entidadeForm.get('razaoSocial')?.hasError('required')">
+              Razão Social é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-full sm:w-1/2 sm:pl-2">
+          <mat-form-field class="w-full">
+            <mat-label>Nome Fantasia</mat-label>
+            <input matInput formControlName="nomeFantasia">
+            <mat-error *ngIf="entidadeForm.get('nomeFantasia')?.hasError('required')">
+              Nome Fantasia é obrigatório.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="mb-4 flex flex-wrap">
+        <div class="w-full sm:w-1/2 sm:pr-2">
+          <mat-form-field class="w-full">
+            <mat-label>CNPJ</mat-label>
+            <input matInput formControlName="cnpj" appCnpjMask (input)="limitSizeCnpj($event)">
+            <mat-error *ngIf="entidadeForm.get('cnpj')?.hasError('required')">
+              CNPJ é obrigatório.
+            </mat-error>
+            <mat-error *ngIf="entidadeForm.get('cnpj')?.hasError('invalidCnpj')">
+              CNPJ inválido. Digite um CNPJ válido.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-full sm:w-1/2 sm:pl-2">
+          <mat-form-field class="w-full">
+            <mat-label>Data de Inauguração</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataInauguracao">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="entidadeForm.get('dataInauguracao')?.hasError('required')">
+              Regional é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <mat-checkbox formControlName="Ativa">Ativa</mat-checkbox>
+      </div>
+
+      <div class="mb-4 flex flex-wrap">
+        <div class="w-full sm:w-1/2 sm:pr-2">
+          <mat-form-field class="w-full">
+            <mat-label>Regional</mat-label>
+            <mat-select formControlName="regional">
+              <mat-option *ngFor="let regional of regionais" [value]="regional.value">
+                {{ regional.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="entidadeForm.get('regional')?.hasError('required')">
+              Regional é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-full sm:w-1/2 sm:pl-2">
+          <mat-form-field class="w-full">
+            <mat-label>Especialidades</mat-label>
+            <mat-select formControlName="especialidades" multiple>
+              <mat-option *ngFor="let especialidade of especialidades" [value]="especialidade.id">
+                {{ especialidade.nome }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="entidadeForm.get('especialidades')?.hasError('required')">
+              Pelo menos uma especialidade deve ser selecionada.
+            </mat-error>
+            <mat-error *ngIf="entidadeForm.get('especialidades')?.hasError('minSelection')">
+              Selecione pelo menos 5 especialidades.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-4">
+        <button mat-raised-button (click)="goBack()" type="button">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit">{{ isEdicao ? 'Salvar' : 'Criar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Confirmação</h1>
+
+<div mat-dialog-content>
+  {{ data.message }}
+</div>
+
+<div mat-dialog-actions>
+  <div class="flex justify-end w-full">
+
+    <button mat-raised-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">Sim</button>
+  </div>
+</div>

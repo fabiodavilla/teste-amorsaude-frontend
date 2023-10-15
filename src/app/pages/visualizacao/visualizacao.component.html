@@ -1,0 +1,67 @@
+<div class="flex flex-col h-full w-full">
+  <div class="flex flex-row h-20 justify-around items-center">
+    <h1 class="text-xl font-bold">Visualizar Entidade</h1>
+  </div>
+
+  <div class="body-table h-full flex flex-col m-8 p-8">
+    <div class="mb-4 flex flex-wrap">
+      <div class="w-full sm:w-1/2 sm:pr-2">
+        <p class="font-bold">Razão Social</p>
+        <p class="text-lg text-slate-500">{{razaoSocial}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+
+      <div class="w-full sm:w-1/2 sm:pl-2">
+        <p class="font-bold">Nome Fantasia</p>
+        <p class="text-lg text-slate-500">{{nomeFantasia}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+    </div>
+
+    <div class="mb-4 flex flex-wrap">
+      <div class="w-full sm:w-1/2 sm:pr-2">
+        <p class="font-bold">CNPJ</p>
+        <p class="text-lg text-slate-500">{{cnpj}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+
+      <div class="w-full sm:w-1/2 sm:pl-2">
+        <p class="font-bold">Data de Inauguração</p>
+        <p class="text-lg text-slate-500">{{dataInauguracao}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+    </div>
+
+    <div class="mb-4 flex flex-wrap">
+      <div class="w-full sm:w-1/2 sm:pr-2">
+        <p class="font-bold">Ativa: </p>
+        <p class="text-lg text-slate-500">{{ativo}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+
+      <div class="w-full sm:w-1/2 sm:pl-2">
+        <p class="font-bold">Regional</p>
+        <p class="text-lg text-slate-500">{{regional}}</p>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+      </div>
+    </div>
+
+
+
+    <div class="w-full sm:w-1/2 sm:pl-2">
+      <p class="font-bold">Especialidades</p>
+      <ng-container *ngFor="let especialidade of especialidades; let i = index">
+        <p *ngIf="i < 5" class="text-lg text-slate-500">{{especialidade}}</p>
+      </ng-container>
+      <div *ngIf="especialidades.length > 5">
+        <button mat-raised-button (click)="showMore()">
+          Mostrar tudo
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-row-reverse">
+      <button mat-raised-button (click)="goBack()">Voltar</button>
+    </div>
+  </div>
+</div>
